@@ -3,19 +3,22 @@ package com.cazimir.skeletonsingleactivitymvvm
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.android.billingclient.api.*
+import com.cazimir.skeletonsingleactivitymvvm.model.CustomPojoClassExample
 import com.cazimir.skeletonsingleactivitymvvm.shared.SharedViewModel
+import com.cazimir.skeletonsingleactivitymvvm.ui.StartingFragment
 import com.cazimir.utilitieslibrary.showSnackbar
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
-class MainActivity : AppCompatActivity(), PurchasesUpdatedListener {
+class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivityCallback {
 
     companion object {
         // TODO add the in app purchases in the google play console. For example:
@@ -29,21 +32,42 @@ class MainActivity : AppCompatActivity(), PurchasesUpdatedListener {
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var billingClient: BillingClient
     private var doubleBackToExitPressedOnce: Boolean = false
-    private lateinit var adView: AdView
-    private lateinit var adUnitId: String
+
+    // TODO: Uncomment these
+//    private lateinit var adView: AdView
+//    private lateinit var adUnitId: String
     private var snackBar: Snackbar? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // TODO: Create this SharedViewModel class
         EventBus.getDefault().register(this)
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        shouldHideSplash()
         subscribeObservers()
-        checkUserPurchases()
+        // checkUserPurchases()
         // TODO: Uncomment this method call if permission requests are needed.
         // checkPermissions()
+
+        // TODO: Example replacement of fragment with Starting Fragment
+        val manager: FragmentManager = supportFragmentManager
+        val transaction: FragmentTransaction = manager.beginTransaction()
+        transaction.replace(R.id.fragment_container, StartingFragment.newInstance()).commit()
+
+        // TODO: Remove this and call hideSplash when loading is done and main layout should be showed
+        Handler().postDelayed({
+            hideSplash()
+        }, 2000)
+
+    }
+
+    /*this mehtod checks if the splashscreen has already been shown and hides it if it has.
+    Used because when rotating the splashscreen shows again because of the activity being recreated*/
+    private fun shouldHideSplash() {
+        if (sharedViewModel.splashScreenShown) {
+            hideSplash()
+        }
     }
 
     private fun subscribeObservers() {
@@ -52,41 +76,41 @@ class MainActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
     private fun checkUserPurchases() {
         billingClient =
-            BillingClient.newBuilder(this).enablePendingPurchases().setListener(this).build()
+                BillingClient.newBuilder(this).enablePendingPurchases().setListener(this).build()
         billingClient.startConnection(
-            object : BillingClientStateListener {
-                override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                        val purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-                        if (purchasesResult.purchasesList.size != 0) {
-                            if (purchasesResult.purchasesList[0].sku == BUY_PRO) {
-                                sharedViewModel.updateBoughtPro()
-                            } else if (purchasesResult.purchasesList[0].sku == REMOVE_ADS) {
-                                sharedViewModel.updateBoughtAds()
+                object : BillingClientStateListener {
+                    override fun onBillingSetupFinished(billingResult: BillingResult) {
+                        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                            val purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
+                            if (purchasesResult.purchasesList.size != 0) {
+                                if (purchasesResult.purchasesList[0].sku == BUY_PRO) {
+                                    sharedViewModel.updateBoughtPro()
+                                } else if (purchasesResult.purchasesList[0].sku == REMOVE_ADS) {
+                                    sharedViewModel.updateBoughtAds()
+                                }
                             }
                         }
                     }
-                }
 
-                override fun onBillingServiceDisconnected() {
-                    // Try to restart the connection on the next request to
-                    // Google Play by calling the startConnection() method.
-                }
-            })
+                    override fun onBillingServiceDisconnected() {
+                        // Try to restart the connection on the next request to
+                        // Google Play by calling the startConnection() method.
+                    }
+                })
     }
 
     // TODO: Call this when user selects the option to remove ads or buy pro
     private fun launchFlowToRemoveAds() {
         if (billingClient.isReady) {
             val skuDetailsParams = SkuDetailsParams.newBuilder()
-                .setSkusList(skuListAds)
-                .setType(BillingClient.SkuType.INAPP)
-                .build()
+                    .setSkusList(skuListAds)
+                    .setType(BillingClient.SkuType.INAPP)
+                    .build()
             billingClient.querySkuDetailsAsync(
-                skuDetailsParams
+                    skuDetailsParams
             ) { billingResult: BillingResult, skuDetailsList: List<SkuDetails> ->
                 if ((billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
-                            !skuDetailsList.isEmpty())) {
+                                !skuDetailsList.isEmpty())) {
                     for (skuDetail: SkuDetails in skuDetailsList) {
                         val flowParams: BillingFlowParams = BillingFlowParams.newBuilder().setSkuDetails(skuDetail).build()
                         billingClient.launchBillingFlow(this, flowParams)
@@ -106,22 +130,24 @@ class MainActivity : AppCompatActivity(), PurchasesUpdatedListener {
     //            android:layout_width="wrap_content"
     //            android:layout_height="wrap_content" />
 
-    private fun loadAds() {
-        this.adView = AdView(this)
-        adView.adSize = AdSize.SMART_BANNER
-        adView.id = View.generateViewId()
+    // TODO: Uncomment this
 
-        if (BuildConfig.DEBUG) {
-            // TODO: Add test and production ad ids
-            adView.adUnitId = resources.getString(androidx.lifecycle.R.string.ad_test)
-        } else {
-            adView.adUnitId = resources.getString(androidx.lifecycle.R.string.ad_prod)
-        }
-
-        adMobView.addView(adView)
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-    }
+//    private fun loadAds() {
+//        this.adView = AdView(this)
+//        adView.adSize = AdSize.SMART_BANNER
+//        adView.id = View.generateViewId()
+//
+//        if (BuildConfig.DEBUG) {
+//            // TODO: Add test and production ad ids
+//            adView.adUnitId = resources.getString(androidx.lifecycle.R.string.ad_test)
+//        } else {
+//            adView.adUnitId = resources.getString(androidx.lifecycle.R.string.ad_prod)
+//        }
+//
+//        adMobView.addView(adView)
+//        val adRequest = AdRequest.Builder().build()
+//        adView.loadAd(adRequest)
+//    }
 
     // TODO: Callback for purchase flow
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
@@ -137,6 +163,8 @@ class MainActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
         }
     }
+
+    // TODO: Uncomment this
 
 //    private fun checkPermissions() {
 //        // TODO: Replace all 'xxx' and 'yyy' with relevant values
@@ -245,12 +273,24 @@ class MainActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
     // you can also set INDEFINITE on the snackbar to show the snackbar forever. this is why we save it to a variable so we can dismiss it later
     private fun showMessageToUser(message: String, length: Int) {
-    // TODO: You need a coordinator layour to show a snackbar: <androidx.coordinatorlayout.widget.CoordinatorLayout
-    //            android:id="@+id/coordinator"
-    //            android:layout_width="match_parent"
-    //            android:layout_height="wrap_content" />
-    //            -> add this wherever it makes sense in the XML file
-
         snackBar = showSnackbar(coordinator, message, length)
+    }
+
+    override fun hideSplash() {
+        splash.visibility = View.GONE
+        main_layout.visibility = View.VISIBLE
+        no_internet_text.visibility = View.GONE
+        sharedViewModel.splashScreenShown = true
+    }
+
+    override fun removeAds() {
+//        launchFlowToRemoveAds()
+        TODO("Uncomment above method")
+    }
+
+    /* When calling EventBus.getDefault().post(CustomPojoClass()), it will be directed here to this method*/
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun exampleEventBusCallback(customPojoClass: CustomPojoClassExample) {
+        // do your stuff here
     }
 }

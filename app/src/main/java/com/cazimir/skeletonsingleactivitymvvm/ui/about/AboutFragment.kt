@@ -12,11 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cazimir.skeletonsingleactivitymvvm.IMainActivityCallback
 import com.cazimir.skeletonsingleactivitymvvm.R
 import com.cazimir.skeletonsingleactivitymvvm.adapter.AboutListAdapter
 import com.cazimir.skeletonsingleactivitymvvm.model.AboutItem
 import com.cazimir.skeletonsingleactivitymvvm.model.MenuItemType
 import com.cazimir.skeletonsingleactivitymvvm.shared.SharedViewModel
+import com.cazimir.skeletonsingleactivitymvvm.ui.privacy_policy.PrivacyPolicyActivity
 import com.cazimir.utilitieslibrary.shareMyApp
 import com.cazimir.utilitieslibrary.showMyListingInStoreForRating
 import com.cazimir.utilitieslibrary.showMyOtherApplicationsInGooglePlay
@@ -26,7 +28,7 @@ class AboutFragment : Fragment() {
 
     lateinit var aboutRecyclerView: RecyclerView
     //initialize this in onAttach so you can communicate with the hosting activity
-    private var activityCallback: OnActivityCallback? = null
+    private var activityCallback: IMainActivityCallback? = null
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var aboutItems: List<AboutItem>
     override fun onCreateView(
@@ -80,12 +82,12 @@ class AboutFragment : Fragment() {
     }
 
     private fun startRemoveAdsAction() {
-        activityCallback!!.removeAds()
+        activityCallback?.removeAds()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activityCallback = context as OnActivityCallback
+        activityCallback = context as IMainActivityCallback
     }
 
     private fun startMoreAppsActivity() {
@@ -122,7 +124,7 @@ class AboutFragment : Fragment() {
         aboutItems.add(AboutItem(MenuItemType.SHARE, R.drawable.ic_share_white))
         aboutItems.add(AboutItem(MenuItemType.PRIVACY_POLICY, R.drawable.ic_info_white))
         aboutItems.add(AboutItem(MenuItemType.RATE_APP, R.drawable.ic_star_white))
-        aboutItems.add(AboutItem(MenuItemType.MORE_APPS, R.drawable.ic_more_vert))
+        aboutItems.add(AboutItem(MenuItemType.MORE_APPS, R.drawable.ic_more_white))
         return aboutItems
     }
 

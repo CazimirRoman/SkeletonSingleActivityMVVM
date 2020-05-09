@@ -5,4 +5,10 @@
     <string name="permission_denied_forever">You need to go to Setting and enable the denied permissions there</string>
     <string name="about_fragment_title">About us</string>
     <string name="privacy_policy_title">Privacy policy</string>
+    <string name="no_internet">No internet</string>
+    <!-- TODO Change share text here  -->
+    <string name="share_text">Share Text</string>
+    <!-- TODO Add Admob ids here -->
+    <string name="ad_test">XXXXXXXX</string>
+    <string name="ad_prod">XXXXXXXX</string>
 </resources>

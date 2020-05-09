@@ -46,7 +46,8 @@ class FirebaseNotificationService : FirebaseMessagingService() {
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
-            .setSmallIcon(R.drawable.ic_notification)
+            // TODO: 09-May-20 replace notification icon placeholder
+            .setSmallIcon(R.drawable.ic_placeholder)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setContentIntent(pendingIntent)
 

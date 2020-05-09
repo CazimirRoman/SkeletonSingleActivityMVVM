@@ -18,6 +18,14 @@
         tools:visibility="visible"
         android:visibility="invisible">
 
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_gravity="center"
+            android:layout_weight="0.8"
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.fragment.app.FragmentContainerView>
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator"
             android:layout_width="match_parent"
@@ -25,9 +33,11 @@
 
         <FrameLayout
             android:id="@+id/adMobView"
+            android:layout_weight="0.2"
+            android:background="@android:color/holo_red_light"
             tools:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
 
     </LinearLayout>
 
@@ -37,12 +47,12 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/splash"
+            tools:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:background="@android:color/darker_gray"
-            app:srcCompat="@drawable/splash"
-            tools:visibility="gone" />
+            app:srcCompat="@drawable/splash" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
