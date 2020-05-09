@@ -38,7 +38,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation project(path: ':utilitieslibrary')
     implementation 'com.android.billingclient:billing:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'com.google.firebase:firebase-ads:19.1.0'
@@ -46,6 +45,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.google.firebase:firebase-messaging:20.1.6'
     annotationProcessor "org.greenrobot:eventbus-annotation-processor:3.2.0"
+    // TODO: 26-Apr-20  when pushing to github make sure to change this to the jitpack.io library implementation (or import the module as a copy to the project)
+    implementation project(':utilitieslibrary')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
