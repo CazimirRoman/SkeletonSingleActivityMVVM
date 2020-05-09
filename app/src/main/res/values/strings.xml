@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SkeletonSingleActivityMVVM</string>
+    <string name="ok">OK</string>
+    <string name="back_exit">Please click BACK again to exit</string>
+    <string name="permission_denied_forever">You need to go to Setting and enable the denied permissions there</string>
+    <string name="about_fragment_title">About us</string>
+    <string name="privacy_policy_title">Privacy policy</string>
 </resources>

@@ -1,2 +1,3 @@
+include ':utilitieslibrary'
 include ':app'
 rootProject.name = "SkeletonSingleActivityMVVM"

@@ -1,0 +1,1 @@
+When creating new UI elements use the New -> Fragment -> Fragment (with ViewModel)
