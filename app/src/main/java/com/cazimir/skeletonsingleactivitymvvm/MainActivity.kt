@@ -13,6 +13,7 @@ import com.cazimir.skeletonsingleactivitymvvm.shared.SharedViewModel
 import com.cazimir.skeletonsingleactivitymvvm.ui.StartingFragment
 import com.cazimir.utilitieslibrary.showSnackbar
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -32,6 +33,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var billingClient: BillingClient
     private var doubleBackToExitPressedOnce: Boolean = false
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     // TODO: Uncomment these
 //    private lateinit var adView: AdView
@@ -42,6 +44,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         EventBus.getDefault().register(this)
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         shouldHideSplash()
@@ -286,6 +289,10 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
     override fun removeAds() {
 //        launchFlowToRemoveAds()
         TODO("Uncomment above method")
+    }
+
+    override fun logAnalyticsEvent(event: String, bundle: Bundle) {
+        firebaseAnalytics.logEvent(event, bundle)
     }
 
     /* When calling EventBus.getDefault().post(CustomPojoClass()), it will be directed here to this method*/

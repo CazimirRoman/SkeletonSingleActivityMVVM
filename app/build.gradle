@@ -51,6 +51,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     annotationProcessor "org.greenrobot:eventbus-annotation-processor:3.2.0"
+    implementation 'com.google.firebase:firebase-core:16.0.4'
     // TODO: When pushing to github make sure to change this to the jitpack.io library implementation (or import the module as a copy to the project)
     implementation project(':utilitieslibrary')
 
