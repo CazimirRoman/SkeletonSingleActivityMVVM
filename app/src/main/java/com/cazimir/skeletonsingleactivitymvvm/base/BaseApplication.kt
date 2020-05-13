@@ -4,7 +4,9 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import com.cazimir.skeletonsingleactivitymvvm.BuildConfig
 import com.cazimir.utilitieslibrary.SharedPreferencesUtil
+import com.google.firebase.analytics.FirebaseAnalytics
 
 class BaseApplication : Application() {
 
@@ -18,6 +20,12 @@ class BaseApplication : Application() {
         super.onCreate()
         SharedPreferencesUtil.with(this)
         createNotificationChannels()
+        setupFirebaseAnalytics()
+    }
+
+    private fun setupFirebaseAnalytics() {
+        // TODO: Setup Google Firebase connection(Tools -> Firebase) before using this otherwise app measurement will be disabled
+        FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)
     }
 
     private fun createNotificationChannels() {
