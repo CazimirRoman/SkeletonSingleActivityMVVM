@@ -11,6 +11,7 @@ import com.android.billingclient.api.*
 import com.cazimir.skeletonsingleactivitymvvm.model.CustomPojoClassExample
 import com.cazimir.skeletonsingleactivitymvvm.shared.SharedViewModel
 import com.cazimir.skeletonsingleactivitymvvm.ui.StartingFragment
+import com.cazimir.skeletonsingleactivitymvvm.ui.about.AboutFragment
 import com.cazimir.utilitieslibrary.showSnackbar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -56,7 +57,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
         // TODO: Example replacement of fragment with Starting Fragment
         val manager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = manager.beginTransaction()
-        transaction.replace(R.id.fragment_container, StartingFragment.newInstance()).commit()
+        transaction.replace(R.id.fragment_container, AboutFragment.newInstance()).commit()
 
         // TODO: Remove this and call hideSplash when loading is done and main layout should be showed
         Handler().postDelayed({

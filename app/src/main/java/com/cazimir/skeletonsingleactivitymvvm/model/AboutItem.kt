@@ -1,12 +1,12 @@
 package com.cazimir.skeletonsingleactivitymvvm.model
 
-class AboutItem(val name: MenuItemType, val icon: Int)
+class AboutItem(val name: AboutItemType, val icon: Int)
 
-enum class MenuItemType(val itemName: String) {
-    SEND_FEEDBACK("Send us feedback"),
-    REMOVE_ADS("Remove Ads"),
-    SHARE("Share"),
-    PRIVACY_POLICY("Privacy policy"),
-    RATE_APP("Rate app"),
-    MORE_APPS("More apps")
+sealed class AboutItemType(val textToDisplay: String) {
+    class SendFeedback(val text: String) : AboutItemType(text)
+    class RemoveAds(val text: String) : AboutItemType(text)
+    class Share(val text: String) : AboutItemType(text)
+    class PrivacyPolicy(val text: String) : AboutItemType(text)
+    class RateApp(val text: String) : AboutItemType(text)
+    class MoreApps(val text: String) : AboutItemType(text)
 }

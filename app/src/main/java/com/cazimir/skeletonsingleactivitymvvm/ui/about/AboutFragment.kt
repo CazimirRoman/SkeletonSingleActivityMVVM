@@ -16,7 +16,7 @@ import com.cazimir.skeletonsingleactivitymvvm.IMainActivityCallback
 import com.cazimir.skeletonsingleactivitymvvm.R
 import com.cazimir.skeletonsingleactivitymvvm.adapter.AboutListAdapter
 import com.cazimir.skeletonsingleactivitymvvm.model.AboutItem
-import com.cazimir.skeletonsingleactivitymvvm.model.MenuItemType
+import com.cazimir.skeletonsingleactivitymvvm.model.AboutItemType
 import com.cazimir.skeletonsingleactivitymvvm.shared.SharedViewModel
 import com.cazimir.skeletonsingleactivitymvvm.ui.privacy_policy.PrivacyPolicyActivity
 import com.cazimir.utilitieslibrary.shareMyApp
@@ -47,29 +47,32 @@ class AboutFragment : Fragment() {
         aboutItems = populateAboutItems(sharedViewModel.adsBought.value)
         aboutRecyclerView.layoutManager = LinearLayoutManager(context)
         aboutRecyclerView.adapter = AboutListAdapter(
-                context,
-                aboutItems,
-            AboutListAdapter.Interactor { item: AboutItem ->
-                when (item.name) {
-                    // TODO: 09-May-20 change Feedback for XXXXX
-                    MenuItemType.SEND_FEEDBACK -> startSendFeedbackAction(
-                        listOf("cazimir.developer@gmail.com").toTypedArray(),
-                        "Feedback for XXXXX",
-                        "Your feedback helps a lot." +
-                                "\n \n What can we do to make the product better for you?\n\nYour message here:\n"
-                    )
-                    MenuItemType.REMOVE_ADS -> startRemoveAdsAction()
-                    MenuItemType.SHARE -> startShareAction()
-                    MenuItemType.PRIVACY_POLICY -> startPrivacyPolicyActivity()
-                    MenuItemType.RATE_APP -> startRateAppAction()
-                    MenuItemType.MORE_APPS -> startMoreAppsActivity()
+            context!!,
+            aboutItems as ArrayList<AboutItem>,
+            object : AboutListAdapter.Interactor {
+                override fun onItemClick(item: AboutItem) {
+                    when (item.name) {
+
+                        is AboutItemType.SendFeedback -> startSendFeedbackAction(
+                            listOf("cazimir.developer@gmail.com").toTypedArray(),
+                            "Feedback for ${getString(R.string.app_name)}",
+                            "Your feedback helps a lot." +
+                                    "\n \n What can we do to make the product better for you?\n\nYour message here:\n"
+                        )
+                        is AboutItemType.RemoveAds -> startRemoveAdsAction()
+                        is AboutItemType.Share -> startShareAction()
+                        is AboutItemType.PrivacyPolicy -> startPrivacyPolicyActivity()
+                        is AboutItemType.RateApp -> startRateAppAction()
+                        is AboutItemType.MoreApps -> startMoreAppsActivity()
+                    }
                 }
             }
         )
     }
 
     private fun startSendFeedbackAction(
-            addresses: Array<String>, subject: String, text: String) {
+        addresses: Array<String>, subject: String, text: String
+    ) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:")
             putExtra(Intent.EXTRA_EMAIL, addresses)
@@ -116,16 +119,46 @@ class AboutFragment : Fragment() {
     private fun populateAboutItems(adsBought: Boolean?): List<AboutItem> {
         val aboutItems = mutableListOf<AboutItem>()
 
-        aboutItems.add(AboutItem(MenuItemType.SEND_FEEDBACK, R.drawable.ic_feedback))
+        aboutItems.add(
+            AboutItem(
+                AboutItemType.SendFeedback(getString(R.string.send_feedback)),
+                R.drawable.ic_feedback
+            )
+        )
 
         if (!adsBought!!) {
-            aboutItems.add(AboutItem(MenuItemType.REMOVE_ADS, R.drawable.ic_shop_white))
+            aboutItems.add(
+                AboutItem(
+                    AboutItemType.RemoveAds(getString(R.string.remove_ads)),
+                    R.drawable.ic_shop_white
+                )
+            )
         }
-        aboutItems.add(AboutItem(MenuItemType.SHARE, R.drawable.ic_share_white))
-        aboutItems.add(AboutItem(MenuItemType.PRIVACY_POLICY, R.drawable.ic_info_white))
-        aboutItems.add(AboutItem(MenuItemType.RATE_APP, R.drawable.ic_star_white))
-        aboutItems.add(AboutItem(MenuItemType.MORE_APPS, R.drawable.ic_more_white))
-        return aboutItems
+        aboutItems.add(
+            AboutItem(
+                AboutItemType.Share(getString(R.string.share_app)),
+                R.drawable.ic_share_white
+            )
+        )
+        aboutItems.add(
+            AboutItem(
+                AboutItemType.PrivacyPolicy(getString(R.string.privacy_policy)),
+                R.drawable.ic_info_white
+            )
+        )
+        aboutItems.add(
+            AboutItem(
+                AboutItemType.RateApp(getString(R.string.rate_app)),
+                R.drawable.ic_star_white
+            )
+        )
+        aboutItems.add(
+            AboutItem(
+                AboutItemType.MoreApps(getString(R.string.more_apps)),
+                R.drawable.ic_more_white
+            )
+        )
+        return aboutItems as ArrayList<AboutItem>
     }
 
     fun hideRemoveAdsButton() {
