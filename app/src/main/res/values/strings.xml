@@ -11,4 +11,13 @@
     <!-- TODO Add Admob ids here -->
     <string name="ad_test">XXXXXXXX</string>
     <string name="ad_prod">XXXXXXXX</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="remove_ads">Remove ads</string>
+    <string name="share_app">Share app</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="rate_app">Rate this app</string>
+    <string name="more_apps">More apps</string>
+    <string name="about_the_app">About the app</string>
+    <string name="feedback_subject">Feedback subject</string>
+    <string name="feedback_body">Feedback body</string>
 </resources>

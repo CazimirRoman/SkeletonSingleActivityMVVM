@@ -1,5 +1,6 @@
 package com.cazimir.skeletonsingleactivitymvvm
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -10,8 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.billingclient.api.*
 import com.cazimir.skeletonsingleactivitymvvm.model.CustomPojoClassExample
 import com.cazimir.skeletonsingleactivitymvvm.shared.SharedViewModel
-import com.cazimir.skeletonsingleactivitymvvm.ui.StartingFragment
-import com.cazimir.utilitieslibrary.showSnackbar
+import com.cazimir.skeletonsingleactivitymvvm.ui.about.AboutFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
@@ -56,7 +56,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
         // TODO: Example replacement of fragment with Starting Fragment
         val manager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = manager.beginTransaction()
-        transaction.replace(R.id.fragment_container, StartingFragment.newInstance()).commit()
+        transaction.replace(R.id.fragment_container, AboutFragment.newInstance()).commit()
 
         // TODO: Remove this and call hideSplash when loading is done and main layout should be showed
         Handler().postDelayed({
@@ -276,7 +276,8 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
 
     // you can also set INDEFINITE on the snackbar to show the snackbar forever. this is why we save it to a variable so we can dismiss it later
     private fun showMessageToUser(message: String, length: Int) {
-        snackBar = showSnackbar(coordinator, message, length)
+        snackBar = Snackbar.make(coordinator, message, length).setTextColor(Color.WHITE)
+        snackBar!!.show()
     }
 
     override fun hideSplash() {

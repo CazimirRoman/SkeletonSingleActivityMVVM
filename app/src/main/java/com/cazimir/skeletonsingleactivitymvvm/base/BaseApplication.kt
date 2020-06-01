@@ -5,7 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import com.cazimir.skeletonsingleactivitymvvm.BuildConfig
-import com.cazimir.utilitieslibrary.SharedPreferencesUtil
+import com.cazimir.skeletonsingleactivitymvvm.util.SharedPreferencesUtil
 import com.google.firebase.analytics.FirebaseAnalytics
 
 class BaseApplication : Application() {

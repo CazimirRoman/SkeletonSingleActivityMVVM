@@ -1,4 +1,2 @@
 include ':app'
-include ':utilitieslibrary'
-project (':utilitieslibrary').projectDir = new File('c:\\AndroidProjects\\UtilitiesLibrary\\utilitieslibrary\\')
 rootProject.name = "SkeletonSingleActivityMVVM"
