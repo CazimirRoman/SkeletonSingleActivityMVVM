@@ -49,6 +49,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         shouldHideSplash()
         subscribeObservers()
+
         // checkUserPurchases()
         // TODO: Uncomment this method call if permission requests are needed.
         // checkPermissions()

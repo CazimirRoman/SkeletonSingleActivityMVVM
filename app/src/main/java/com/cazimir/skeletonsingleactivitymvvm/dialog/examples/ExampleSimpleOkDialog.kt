@@ -1,4 +1,4 @@
-package com.cazimir.skeletonsingleactivitymvvm.dialog
+package com.cazimir.skeletonsingleactivitymvvm.dialog.examples
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -8,7 +8,7 @@ import com.cazimir.skeletonsingleactivitymvvm.R
 import com.cazimir.skeletonsingleactivitymvvm.dialog.base.RetainableDialogFragment
 import com.cazimir.skeletonsingleactivitymvvm.dialog.callback.ISimpleOkDialogCallback
 
-class SimpleOkDialog(
+class ExampleSimpleOkDialog(
     private val callback: ISimpleOkDialogCallback,
     private val title: String,
     private val message: String
