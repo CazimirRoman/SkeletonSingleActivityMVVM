@@ -1,6 +1,8 @@
 package com.cazimir.skeletonsingleactivitymvvm.shared
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.cazimir.skeletonsingleactivitymvvm.getOrAwaitValue
+import org.hamcrest.CoreMatchers
 import org.junit.Before
 import org.junit.Test
 
@@ -17,5 +19,9 @@ class SharedViewModelTest {
     @Test
     fun updateBoughtAds() {
         val sharedViewModel = SharedViewModel()
+        sharedViewModel.updateBoughtAds()
+        val adsBought = sharedViewModel.adsBought.getOrAwaitValue()
+        assertThat(adsBought, CoreMatchers.`is`(true))
+
     }
 }
