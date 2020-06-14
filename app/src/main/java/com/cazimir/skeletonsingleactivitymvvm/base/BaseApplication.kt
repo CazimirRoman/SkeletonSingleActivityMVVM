@@ -7,6 +7,7 @@ import android.os.Build
 import com.cazimir.skeletonsingleactivitymvvm.BuildConfig
 import com.cazimir.skeletonsingleactivitymvvm.util.SharedPreferencesUtil
 import com.google.firebase.analytics.FirebaseAnalytics
+import timber.log.Timber
 
 class BaseApplication : Application() {
 
@@ -18,6 +19,9 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
         SharedPreferencesUtil.with(this)
         createNotificationChannels()
         setupFirebaseAnalytics()
