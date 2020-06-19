@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SkeletonSingleActivityMVVM</string>
+    <string name="share_text">Ehi, ho trovato questa fantastica app SkeletonSingleActivityMVVM che ti aiuta a concentrarti di giorno e rende facile addormentarti la notte. Scaricala da qui: https://play.google.com/store/apps/details?id=com.cazimir.relaxoo</string>
+    <string name="no_internet">Sei offline</string>
+    <string name="back_exit">Cliccare di nuovo su BACK per uscire</string>
+    <string name="ok">OK</string>
+    <string name="privacy_policy_title">Informativa sulla privacy</string>
+    <string name="send_feedback">Invia un feedback</string>
+    <string name="remove_ads">Rimuovere gli annunci</string>
+    <string name="share_app">Condividi app</string>
+    <string name="privacy_policy">Informativa sulla privacy</string>
+    <string name="rate_app">Valuta questa app</string>
+    <string name="more_apps">Altre applicazioni</string>
+    <string name="feedback_subject">Feedback per SkeletonSingleActivityMVVM</string>
+    <string name="feedback_body">Cosa possiamo fare per rendere il prodotto migliore per voi?\n\nIl vostro messaggio qui: </string>
+</resources>

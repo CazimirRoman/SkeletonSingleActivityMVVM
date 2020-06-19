@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SkeletonSingleActivityMVVM</string>
+    <string name="share_text">嘿，我发现了一个非常棒的应用程序SkeletonSingleActivityMVVM，它可以帮助你在白天集中精力，晚上容易入睡。从这里下载：https://play.google.com/store/apps/details?id=com.cazimir.relaxoo</string>
+    <string name="no_internet">您已离线</string>
+    <string name="back_exit">请再次点击 \"返回 \"退出</string>
+    <string name="ok">好的</string>
+    <string name="privacy_policy_title">隐私政策</string>
+    <string name="send_feedback">发送反馈信息</string>
+    <string name="remove_ads">移除广告</string>
+    <string name="share_app">分享应用</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="rate_app">给这个应用打分</string>
+    <string name="more_apps">更多应用</string>
+    <string name="feedback_subject">对SkeletonSingleActivityMVVM的反馈</string>
+    <string name="feedback_body">怎样才能让产品更好的为您服务？ 您的信息在这里。</string>
+</resources>

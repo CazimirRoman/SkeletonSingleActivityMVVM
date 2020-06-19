@@ -44,6 +44,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        // TODO: 18.06.2020 Handle Internet connectivity
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         EventBus.getDefault().register(this)
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)

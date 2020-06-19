@@ -2,8 +2,6 @@
     <string name="app_name">SkeletonSingleActivityMVVM</string>
     <string name="ok">OK</string>
     <string name="back_exit">Please click BACK again to exit</string>
-    <string name="permission_denied_forever">You need to go to Setting and enable the denied permissions there</string>
-    <string name="about_fragment_title">About us</string>
     <string name="privacy_policy_title">Privacy policy</string>
     <string name="no_internet">No internet</string>
     <!-- TODO Change share text here  -->
@@ -17,7 +15,6 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="rate_app">Rate this app</string>
     <string name="more_apps">More apps</string>
-    <string name="about_the_app">About the app</string>
     <string name="feedback_subject">Feedback subject</string>
     <string name="feedback_body">Feedback body</string>
     <!-- TODO: Remove or change this placeholder text -->
