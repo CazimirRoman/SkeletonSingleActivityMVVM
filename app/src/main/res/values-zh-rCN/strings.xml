@@ -14,4 +14,13 @@
     <string name="more_apps">更多应用</string>
     <string name="feedback_subject">对SkeletonSingleActivityMVVM的反馈</string>
     <string name="feedback_body">怎样才能让产品更好的为您服务？ 您的信息在这里。</string>
+    <string name="rating_submit">发送</string>
+    <string name="rating_very_bad">非常糟糕</string>
+    <string name="rating_not_good">不好</string>
+    <string name="rating_quite_ok">挺好的</string>
+    <string name="rating_very_good">非常好</string>
+    <string name="rating_excellent">厉害！</string>
+    <string name="dialog_rate_title">给这个应用程序评分</string>
+    <string name="dialog_rate_text">我们依靠您的反馈，使这个应用程序对您来说更好!</string>
+    <string name="rating_later">后来</string>
 </resources>

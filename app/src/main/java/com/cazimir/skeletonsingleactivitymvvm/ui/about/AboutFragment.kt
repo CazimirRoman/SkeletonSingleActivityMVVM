@@ -162,7 +162,6 @@ class AboutFragment : Fragment() {
         aboutItems.add(AboutItem(AboutItemType.PrivacyPolicy(getString(R.string.privacy_policy)), R.drawable.ic_info_white))
         aboutItems.add(AboutItem(AboutItemType.RateApp(getString(R.string.rate_app)), R.drawable.ic_star_white))
         aboutItems.add(AboutItem(AboutItemType.MoreApps(getString(R.string.more_apps)), R.drawable.ic_more_white))
-        aboutItems.add(AboutItem(AboutItemType.AboutTheApp(getString(R.string.about_the_app)), R.drawable.ic_about_white))
 
         return aboutItems as ArrayList<AboutItem>
     }

@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+-keep class com.suspedeal.makeitbig.model.* { *; }
+-keep public class * extends androidx.lifecycle.ViewModel {*;}
+-keep public class * extends androidx.lifecycle.ViewModelProvider.Factory {*;}
+-keep public class * extends androidx.fragment.app.Fragment

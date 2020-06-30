@@ -25,4 +25,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">28sp</item>
     </style>
+
+    <style name="MyDialogFadeAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
 </resources>

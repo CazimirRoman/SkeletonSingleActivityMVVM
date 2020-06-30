@@ -6,6 +6,7 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.cazimir.skeletonsingleactivitymvvm.R
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
+import java.util.*
 
 
 class PrivacyPolicyActivity : AppCompatActivity() {
@@ -48,7 +49,27 @@ class PrivacyPolicyActivity : AppCompatActivity() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         // TODO: Create privacy policy and add it to the assets folder
-        webView.loadUrl("file:///android_asset/xxxxxxxxx.html")
+        val languagename: String = Locale.getDefault().displayLanguage
+
+        var pathToHtml = "file:///android_asset/privacy_policy.html"
+
+        when (languagename) {
+            // TODO: 10.06.2020 Translate privacy policies
+            Locale.GERMAN.displayLanguage -> pathToHtml =
+                "file:///android_asset/privacy_policy_de.html"
+            Locale.FRENCH.displayLanguage -> pathToHtml =
+                "file:///android_asset/privacy_policy_fr.html"
+            Locale("es", "ES").displayLanguage -> pathToHtml =
+                "file:///android_asset/privacy_policy_sp.html"
+            Locale.ITALIAN.displayLanguage -> pathToHtml =
+                "file:///android_asset/privacy_policy_it.html"
+            Locale.CHINESE.displayLanguage -> pathToHtml =
+                "file:///android_asset/privacy_policy_ch.html"
+            Locale("ru", "RU").displayLanguage -> pathToHtml =
+                "file:///android_asset/privacy_policy_ru.html"
+        }
+
+        webView.loadUrl(pathToHtml)
     }
 
     // TODO: Uncomment this

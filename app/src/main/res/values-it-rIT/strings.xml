@@ -14,4 +14,13 @@
     <string name="more_apps">Altre applicazioni</string>
     <string name="feedback_subject">Feedback per SkeletonSingleActivityMVVM</string>
     <string name="feedback_body">Cosa possiamo fare per rendere il prodotto migliore per voi?\n\nIl vostro messaggio qui: </string>
+    <string name="rating_submit">Inviare</string>
+    <string name="rating_very_bad">Molto male</string>
+    <string name="rating_not_good">Non bene</string>
+    <string name="rating_quite_ok">Abbastanza buono</string>
+    <string name="rating_very_good">Molto bene</string>
+    <string name="rating_excellent">Eccellente!</string>
+    <string name="dialog_rate_title">Valuta questa applicazione</string>
+    <string name="dialog_rate_text">Dipendiamo dal vostro feedback per rendere questa applicazione migliore per voi!</string>
+    <string name="rating_later">Più tardi</string>
 </resources>

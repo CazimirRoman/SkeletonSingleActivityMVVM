@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.cazimir.skeletonsingleactivitymvvm.R
 import com.cazimir.skeletonsingleactivitymvvm.dialog.base.RetainableDialogFragment
+import com.cazimir.skeletonsingleactivitymvvm.ui.about.AboutFragment
 
 class ExampleDialogWithCustomLayout(val callback: IExampleCallbackInterface) :
     RetainableDialogFragment() {
@@ -19,7 +20,7 @@ class ExampleDialogWithCustomLayout(val callback: IExampleCallbackInterface) :
     ): View? {
         layout = activity!!.layoutInflater.inflate(R.layout.example_dialog_with_custom_layout, null)
         childFragmentManager.beginTransaction()
-            .add(R.id.fragment_container_view, ExampleFragment())
+            .add(R.id.fragment_container_view, AboutFragment())
             .commit()
         return layout
     }

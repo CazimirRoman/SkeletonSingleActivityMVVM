@@ -12,6 +12,7 @@ object SharedPreferencesUtil {
 
     // Name of Shared Preference file
     private const val PREFERENCES_FILE_NAME = "PREFERENCES_FILE_NAME"
+    const val RATING_DIALOG = "RATING_DIALOG"
 
     /**
      * Call this first before retrieving or saving object.

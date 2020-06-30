@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SkeletonSingleActivityMVVM</string>
+    <string name="rating_submit">Отправить</string>
+    <string name="rating_very_bad">Очень плохо</string>
+    <string name="rating_not_good">Плохо</string>
+    <string name="rating_quite_ok">Довольно неплохо</string>
+    <string name="rating_very_good">Очень хорошо</string>
+    <string name="rating_excellent">Отлично!</string>
+    <string name="dialog_rate_title">Оценить эту заявку</string>
+    <string name="dialog_rate_text">Мы полагаемся на ваши отзывы, чтобы сделать это приложение лучше для вас!</string>
+    <string name="rating_later">Позже</string>
+</resources>

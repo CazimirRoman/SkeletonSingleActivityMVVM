@@ -1,27 +1,40 @@
 package com.cazimir.skeletonsingleactivitymvvm
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.billingclient.api.*
 import com.cazimir.skeletonsingleactivitymvvm.model.CustomPojoClassExample
+import com.cazimir.skeletonsingleactivitymvvm.model.RatingDialog
 import com.cazimir.skeletonsingleactivitymvvm.shared.SharedViewModel
 import com.cazimir.skeletonsingleactivitymvvm.ui.about.AboutFragment
+import com.cazimir.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.RATING_DIALOG
+import com.cazimir.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.loadFromSharedPreferences
+import com.cazimir.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.saveToSharedPreferences
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.stepstone.apprating.AppRatingDialog
+import com.stepstone.apprating.listener.RatingDialogListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivityCallback {
+class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivityCallback,
+    RatingDialogListener {
 
     companion object {
+        const val RATING_INTERVAL = 2
+
         // TODO add the in app purchases in the google play console. For example:
         //  For example : https://play.google.com/apps/publish/?account=6057318625214354870#ManagedProductsSetupPlace:p=com.cazimir.relaxoo&appid=4973803007102252000
         private const val REMOVE_ADS = "remove_ads"
@@ -77,6 +90,46 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
 
     private fun subscribeObservers() {
         // TODO: Subscribe to all relevant observers here (adsBought for example to show or hide the ads view)
+        sharedViewModel.showRatingPopup.observe(this, Observer { show ->
+            when (show && !sharedViewModel.isRatingDialogShowing) {
+                true -> {
+                    showRatingDialog()
+                }
+            }
+        })
+    }
+
+    private fun showRatingDialog() {
+        AppRatingDialog.Builder()
+            .setPositiveButtonText(getString(R.string.rating_submit))
+            .setNeutralButtonText(getString(R.string.rating_later))
+            .setNoteDescriptions(
+                listOf(
+                    getString(R.string.rating_very_bad),
+                    getString(R.string.rating_not_good),
+                    getString(R.string.rating_quite_ok),
+                    getString(R.string.rating_very_good),
+                    getString(R.string.rating_excellent)
+                )
+            )
+            .setDefaultRating(4)
+            .setTitle(getString(R.string.dialog_rate_title))
+            .setDescription(getString(R.string.dialog_rate_text))
+            .setCommentInputEnabled(false)
+            .setStarColor(R.color.colorPrimary)
+            .setNoteDescriptionTextColor(R.color.colorAccent)
+            .setTitleTextColor(R.color.black)
+            .setDescriptionTextColor(R.color.black)
+            .setHintTextColor(R.color.black)
+            .setCommentTextColor(R.color.black)
+            .setCommentBackgroundColor(R.color.gray)
+            .setWindowAnimation(R.style.MyDialogFadeAnimation)
+            .setCancelable(true)
+            .setCanceledOnTouchOutside(true)
+            .create(this@MainActivity)
+            .show()
+
+        sharedViewModel.isRatingDialogShowing = true
     }
 
     private fun checkUserPurchases() {
@@ -87,10 +140,11 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
                     override fun onBillingSetupFinished(billingResult: BillingResult) {
                         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                             val purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-                            if (purchasesResult.purchasesList.size != 0) {
-                                if (purchasesResult.purchasesList[0].sku == BUY_PRO) {
+
+                            if (purchasesResult.purchasesList?.size != 0) {
+                                if (purchasesResult.purchasesList?.get(0)?.sku == BUY_PRO) {
                                     sharedViewModel.updateBoughtPro()
-                                } else if (purchasesResult.purchasesList[0].sku == REMOVE_ADS) {
+                                } else if (purchasesResult.purchasesList?.get(0)?.sku == REMOVE_ADS) {
                                     sharedViewModel.updateBoughtAds()
                                 }
                             }
@@ -111,19 +165,19 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
                     .setSkusList(skuListAds)
                     .setType(BillingClient.SkuType.INAPP)
                     .build()
-            billingClient.querySkuDetailsAsync(
-                    skuDetailsParams
-            ) { billingResult: BillingResult, skuDetailsList: List<SkuDetails> ->
-                if ((billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
-                                !skuDetailsList.isEmpty())) {
-                    for (skuDetail: SkuDetails in skuDetailsList) {
-                        val flowParams: BillingFlowParams = BillingFlowParams.newBuilder().setSkuDetails(skuDetail).build()
-                        billingClient.launchBillingFlow(this, flowParams)
-                    }
-                } else {
+            billingClient.querySkuDetailsAsync(skuDetailsParams, object : SkuDetailsResponseListener {
+                override fun onSkuDetailsResponse(billingResult: BillingResult, skuDetailsList: MutableList<SkuDetails>?) {
+                    if ((billingResult.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList!!.isEmpty())) {
+                        for (skuDetail: SkuDetails in skuDetailsList!!) {
+                            val flowParams: BillingFlowParams = BillingFlowParams.newBuilder().setSkuDetails(skuDetail).build()
+                            billingClient.launchBillingFlow(this@MainActivity, flowParams)
+                        }
+                    } else {
 //                    Log.d(TAG, "loadAllSKUs() called with: skuDetailsList is empty")
+                    }
                 }
-            }
+
+            })
         } else {
 //            Log.d(TAG, "loadAllSKUs() called with: billingClient is not ready")
         }
@@ -302,5 +356,55 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun exampleEventBusCallback(customPojoClass: CustomPojoClassExample) {
         // do your stuff here
+    }
+
+    override fun onNegativeButtonClicked() {
+        sharedViewModel.updateShowRatingDialog()
+        sharedViewModel.isRatingDialogShowing = false
+    }
+
+    override fun onNeutralButtonClicked() {
+        delayRatingDialog()
+        sharedViewModel.updateShowRatingDialog()
+        sharedViewModel.isRatingDialogShowing = false
+    }
+
+    override fun onPositiveButtonClicked(rate: Int, comment: String) {
+        rateApp()
+        saveToSharedPreferences(RatingDialog(never = true), RATING_DIALOG)
+        sharedViewModel.updateShowRatingDialog()
+        sharedViewModel.isRatingDialogShowing = false
+    }
+
+    private fun delayRatingDialog() {
+        val currentRating: RatingDialog = loadFromSharedPreferences<RatingDialog>(RATING_DIALOG)!!
+        val newRatingDialog = RatingDialog(
+            later = currentRating.later + RATING_INTERVAL,
+            timesOpened = currentRating.timesOpened
+        )
+        saveToSharedPreferences(newRatingDialog, RATING_DIALOG)
+    }
+
+    private fun rateApp(): Boolean {
+        val uri = Uri.parse("market://details?id=" + packageName)
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(
+            Intent.FLAG_ACTIVITY_NO_HISTORY or
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        )
+        try {
+            startActivity(goToMarket)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=$packageName")
+                )
+            )
+        }
+        return true
     }
 }
