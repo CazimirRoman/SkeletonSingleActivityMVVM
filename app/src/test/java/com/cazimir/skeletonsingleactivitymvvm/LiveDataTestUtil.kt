@@ -1,4 +1,4 @@
-package com.cazimir.skeletonsingleactivitymvvm
+package com.carosoftware.skeletonsingleactivitymvvm
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData

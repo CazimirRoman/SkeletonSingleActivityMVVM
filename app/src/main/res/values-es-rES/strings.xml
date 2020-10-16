@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SkeletonSingleActivityMVVM</string>
-    <string name="share_text">Hey. Encontré una aplicación realmente increíble, SkeletonSingleActivityMVVM, que te ayuda a concentrarte durante el día y facilita el sueño por la noche. Descárgala desde aquí: https://play.google.com/store/apps/details?id=com.cazimir.relaxoo</string>
+    <string name="share_text">Hey. Encontré una aplicación realmente increíble, SkeletonSingleActivityMVVM, que te ayuda a concentrarte durante el día y facilita el sueño por la noche. Descárgala desde aquí: https://play.google.com/store/apps/details?id=com.carosoftware.relaxoo</string>
     <string name="no_internet">Estás desconectado</string>
     <string name="back_exit">Por favor, haga clic en ATRÁS de nuevo para salir</string>
     <string name="ok">OK</string>
