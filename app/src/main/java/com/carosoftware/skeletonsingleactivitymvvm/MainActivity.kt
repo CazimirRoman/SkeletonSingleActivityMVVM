@@ -10,13 +10,12 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.billingclient.api.*
 import com.carosoftware.skeletonsingleactivitymvvm.model.CustomPojoClassExample
 import com.carosoftware.skeletonsingleactivitymvvm.model.RatingDialog
 import com.carosoftware.skeletonsingleactivitymvvm.shared.SharedViewModel
-import com.carosoftware.skeletonsingleactivitymvvm.ui.about.AboutFragment
+import com.carosoftware.skeletonsingleactivitymvvm.ui.StartingFragment
 import com.carosoftware.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.RATING_DIALOG
 import com.carosoftware.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.loadFromSharedPreferences
 import com.carosoftware.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.saveToSharedPreferences
@@ -53,10 +52,10 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
 //    private lateinit var adUnitId: String
     private var snackBar: Snackbar? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         // TODO: 18.06.2020 Handle Internet connectivity
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         EventBus.getDefault().register(this)
@@ -71,7 +70,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
         // TODO: Example replacement of fragment with Starting Fragment
         val manager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = manager.beginTransaction()
-        transaction.replace(R.id.fragment_container, AboutFragment.newInstance()).commit()
+        transaction.replace(R.id.fragment_container, StartingFragment.newInstance()).commit()
 
         // TODO: Remove this and call hideSplash when loading is done and main layout should be showed
         Handler().postDelayed({
@@ -90,7 +89,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
 
     private fun subscribeObservers() {
         // TODO: Subscribe to all relevant observers here (adsBought for example to show or hide the ads view)
-        sharedViewModel.showRatingPopup.observe(this, Observer { show ->
+        sharedViewModel.showRatingPopup.observe(this, { show ->
             when (show && !sharedViewModel.isRatingDialogShowing) {
                 true -> {
                     showRatingDialog()
@@ -168,7 +167,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
             billingClient.querySkuDetailsAsync(skuDetailsParams, object : SkuDetailsResponseListener {
                 override fun onSkuDetailsResponse(billingResult: BillingResult, skuDetailsList: MutableList<SkuDetails>?) {
                     if ((billingResult.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList!!.isEmpty())) {
-                        for (skuDetail: SkuDetails in skuDetailsList!!) {
+                        for (skuDetail: SkuDetails in skuDetailsList) {
                             val flowParams: BillingFlowParams = BillingFlowParams.newBuilder().setSkuDetails(skuDetail).build()
                             billingClient.launchBillingFlow(this@MainActivity, flowParams)
                         }

@@ -4,7 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import androidx.multidex.BuildConfig
+import com.carosoftware.skeletonsingleactivitymvvm.BuildConfig
 import com.carosoftware.skeletonsingleactivitymvvm.util.SharedPreferencesUtil
 import com.google.firebase.analytics.FirebaseAnalytics
 import timber.log.Timber
