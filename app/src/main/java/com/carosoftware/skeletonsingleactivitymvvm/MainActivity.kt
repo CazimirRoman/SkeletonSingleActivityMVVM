@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.android.billingclient.api.*
+import com.carosoftware.skeletonsingleactivitymvvm.databinding.ActivityMainBinding
 import com.carosoftware.skeletonsingleactivitymvvm.model.CustomPojoClassExample
 import com.carosoftware.skeletonsingleactivitymvvm.model.RatingDialog
 import com.carosoftware.skeletonsingleactivitymvvm.shared.SharedViewModel
@@ -23,7 +24,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.stepstone.apprating.AppRatingDialog
 import com.stepstone.apprating.listener.RatingDialogListener
-import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -42,6 +42,8 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
         private val skuListPro = listOf(BUY_PRO)
     }
 
+    private lateinit var binding: ActivityMainBinding
+
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var billingClient: BillingClient
     private var doubleBackToExitPressedOnce: Boolean = false
@@ -54,7 +56,9 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         // TODO: 18.06.2020 Handle Internet connectivity
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -331,14 +335,14 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
 
     // you can also set INDEFINITE on the snackbar to show the snackbar forever. this is why we save it to a variable so we can dismiss it later
     private fun showMessageToUser(message: String, length: Int) {
-        snackBar = Snackbar.make(coordinator, message, length).setTextColor(Color.WHITE)
+        snackBar = Snackbar.make(binding.coordinator, message, length).setTextColor(Color.WHITE)
         snackBar!!.show()
     }
 
     override fun hideSplash() {
-        splash.visibility = View.GONE
-        main_layout.visibility = View.VISIBLE
-        no_internet_text.visibility = View.GONE
+        binding.splash.visibility = View.GONE
+        binding.mainLayout.visibility = View.VISIBLE
+        binding.noInternetText.visibility = View.GONE
         sharedViewModel.splashScreenShown = true
     }
 
