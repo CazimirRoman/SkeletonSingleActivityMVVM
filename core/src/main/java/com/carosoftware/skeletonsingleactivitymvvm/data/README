@@ -1,0 +1,8 @@
+The Data Layer
+
+This layer provides abstract definitions for accessing data sources
+like a database or the internet. You’ll use Repository pattern in this layer.
+
+The main purpose of the repository pattern is to abstract away the concrete
+implementation of data access. To achieve this,
+you’ll add one interface and one class for each model
