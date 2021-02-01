@@ -1,4 +1,4 @@
-package com.carosoftware.skeletonsingleactivitymvvm.model
+package com.carosoftware.skeletonsingleactivitymvvm.domain
 
 class AboutItem(val name: AboutItemType, val icon: Int)
 

@@ -1,4 +1,4 @@
-package com.carosoftware.skeletonsingleactivitymvvm.model
+package com.carosoftware.skeletonsingleactivitymvvm.domain
 
 enum class HintType(val key: String) {
     // TODO: 27.06.2020 type of hints

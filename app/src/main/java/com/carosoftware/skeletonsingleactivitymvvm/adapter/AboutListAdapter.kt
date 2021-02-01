@@ -10,10 +10,10 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.carosoftware.skeletonsingleactivitymvvm.R
 import com.carosoftware.skeletonsingleactivitymvvm.adapter.AboutListAdapter.RowHolder
-import com.carosoftware.skeletonsingleactivitymvvm.model.AboutItem
-import com.carosoftware.skeletonsingleactivitymvvm.model.AboutItemType
+import com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem
+import com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType
 
-class AboutListAdapter(private val context: Context, private val data: ArrayList<AboutItem>, private val interactor: Interactor) : RecyclerView.Adapter<RowHolder>() {
+class AboutListAdapter(private val context: Context, private val data: ArrayList<com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem>, private val interactor: Interactor) : RecyclerView.Adapter<RowHolder>() {
 
     /**
      * Inflate custom layout to use
@@ -49,9 +49,9 @@ class AboutListAdapter(private val context: Context, private val data: ArrayList
     }
 
     fun removeRemoveAds() {
-        var itemToBeDeleted: AboutItem? = null
+        var itemToBeDeleted: com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem? = null
         for (aboutItem in data) {
-            if (aboutItem.name.textToDisplay == AboutItemType.RemoveAds(context.getString(R.string.remove_ads)).textToDisplay) {
+            if (aboutItem.name.textToDisplay == com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.RemoveAds(context.getString(R.string.remove_ads)).textToDisplay) {
                 itemToBeDeleted = aboutItem
                 break
             }
@@ -66,7 +66,7 @@ class AboutListAdapter(private val context: Context, private val data: ArrayList
     }
 
     interface Interactor {
-        fun onItemClick(item: AboutItem)
+        fun onItemClick(item: com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem)
     }
 
     /**

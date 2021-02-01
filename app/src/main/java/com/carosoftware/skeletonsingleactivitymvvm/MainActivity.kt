@@ -13,8 +13,8 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.android.billingclient.api.*
 import com.carosoftware.skeletonsingleactivitymvvm.databinding.ActivityMainBinding
-import com.carosoftware.skeletonsingleactivitymvvm.model.CustomPojoClassExample
-import com.carosoftware.skeletonsingleactivitymvvm.model.RatingDialog
+import com.carosoftware.skeletonsingleactivitymvvm.domain.CustomPojoClassExample
+import com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog
 import com.carosoftware.skeletonsingleactivitymvvm.shared.SharedViewModel
 import com.carosoftware.skeletonsingleactivitymvvm.ui.StartingFragment
 import com.carosoftware.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.RATING_DIALOG
@@ -357,7 +357,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
 
     /* When calling EventBus.getDefault().post(CustomPojoClass()), it will be directed here to this method*/
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun exampleEventBusCallback(customPojoClass: CustomPojoClassExample) {
+    fun exampleEventBusCallback(customPojoClass: com.carosoftware.skeletonsingleactivitymvvm.domain.CustomPojoClassExample) {
         // do your stuff here
     }
 
@@ -374,14 +374,17 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, IMainActivity
 
     override fun onPositiveButtonClicked(rate: Int, comment: String) {
         rateApp()
-        saveToSharedPreferences(RatingDialog(never = true), RATING_DIALOG)
+        saveToSharedPreferences(
+            com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog(
+                never = true
+            ), RATING_DIALOG)
         sharedViewModel.updateShowRatingDialog()
         sharedViewModel.isRatingDialogShowing = false
     }
 
     private fun delayRatingDialog() {
-        val currentRating: RatingDialog = loadFromSharedPreferences<RatingDialog>(RATING_DIALOG)!!
-        val newRatingDialog = RatingDialog(
+        val currentRating: com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog = loadFromSharedPreferences<com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog>(RATING_DIALOG)!!
+        val newRatingDialog = com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog(
             later = currentRating.later + RATING_INTERVAL,
             timesOpened = currentRating.timesOpened
         )

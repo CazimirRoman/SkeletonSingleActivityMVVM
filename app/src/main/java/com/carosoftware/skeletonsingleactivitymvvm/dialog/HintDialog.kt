@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import com.carosoftware.skeletonsingleactivitymvvm.R
 import com.carosoftware.skeletonsingleactivitymvvm.dialog.base.RetainableDialogFragment
 import com.carosoftware.skeletonsingleactivitymvvm.eventbus.EventBusShowHintsEvent
-import com.carosoftware.skeletonsingleactivitymvvm.model.HintType
+import com.carosoftware.skeletonsingleactivitymvvm.domain.HintType
 import kotlinx.android.synthetic.main.hint_dialog.view.*
 import org.greenrobot.eventbus.EventBus
 
-class HintDialog(val hintText: String, val hintType: HintType) :
+class HintDialog(val hintText: String, val hintType: com.carosoftware.skeletonsingleactivitymvvm.domain.HintType) :
     RetainableDialogFragment() {
 
     private lateinit var layout: View

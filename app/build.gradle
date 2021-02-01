@@ -61,6 +61,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation project(path: ':core')
     annotationProcessor "org.greenrobot:eventbus-annotation-processor:3.2.0"
     implementation 'com.google.firebase:firebase-core:17.5.1'
     implementation 'com.google.firebase:firebase-analytics:17.6.0'

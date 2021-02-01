@@ -16,8 +16,8 @@ import com.carosoftware.skeletonsingleactivitymvvm.IMainActivityCallback
 import com.carosoftware.skeletonsingleactivitymvvm.R
 import com.carosoftware.skeletonsingleactivitymvvm.adapter.AboutListAdapter
 import com.carosoftware.skeletonsingleactivitymvvm.analytics.AnalyticsEvents
-import com.carosoftware.skeletonsingleactivitymvvm.model.AboutItem
-import com.carosoftware.skeletonsingleactivitymvvm.model.AboutItemType
+import com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem
+import com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType
 import com.carosoftware.skeletonsingleactivitymvvm.shared.SharedViewModel
 import com.carosoftware.skeletonsingleactivitymvvm.ui.privacy_policy.PrivacyPolicyActivity
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -29,7 +29,7 @@ class AboutFragment : Fragment() {
     //initialize this in onAttach so you can communicate with the hosting activity
     private var activityCallback: IMainActivityCallback? = null
     private lateinit var sharedViewModel: SharedViewModel
-    private lateinit var aboutItems: List<AboutItem>
+    private lateinit var aboutItems: List<com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,22 +47,22 @@ class AboutFragment : Fragment() {
         aboutRecyclerView.layoutManager = LinearLayoutManager(context)
         aboutRecyclerView.adapter = AboutListAdapter(
             context!!,
-            aboutItems as ArrayList<AboutItem>,
+            aboutItems as ArrayList<com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem>,
             object : AboutListAdapter.Interactor {
-                override fun onItemClick(item: AboutItem) {
+                override fun onItemClick(item: com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem) {
                     when (item.name) {
 
-                        is AboutItemType.SendFeedback -> startSendFeedbackAction(
+                        is com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.SendFeedback -> startSendFeedbackAction(
                             listOf("carosoftware.developer@gmail.com").toTypedArray(),
                             getString(R.string.feedback_subject),
                             getString(R.string.feedback_body)
                         )
-                        is AboutItemType.RemoveAds -> startRemoveAdsAction()
-                        is AboutItemType.Share -> startShareAction()
-                        is AboutItemType.PrivacyPolicy -> startPrivacyPolicyActivity()
-                        is AboutItemType.RateApp -> startRateAppAction()
-                        is AboutItemType.MoreApps -> startMoreAppsActivity()
-                        is AboutItemType.AboutTheApp -> startAboutTheAppActivity()
+                        is com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.RemoveAds -> startRemoveAdsAction()
+                        is com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.Share -> startShareAction()
+                        is com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.PrivacyPolicy -> startPrivacyPolicyActivity()
+                        is com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.RateApp -> startRateAppAction()
+                        is com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.MoreApps -> startMoreAppsActivity()
+                        is com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.AboutTheApp -> startAboutTheAppActivity()
                     }
                 }
             }
@@ -150,20 +150,56 @@ class AboutFragment : Fragment() {
         context?.startActivity(sendIntent)
     }
 
-    private fun populateAboutItems(adsBought: Boolean?): List<AboutItem> {
-        val aboutItems = mutableListOf<AboutItem>()
+    private fun populateAboutItems(adsBought: Boolean?): List<com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem> {
+        val aboutItems = mutableListOf<com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem>()
 
-        aboutItems.add(AboutItem(AboutItemType.SendFeedback(getString(R.string.send_feedback)), R.drawable.ic_feedback))
+        aboutItems.add(
+            com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem(
+                com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.SendFeedback(
+                    getString(R.string.send_feedback)
+                ), R.drawable.ic_feedback
+            )
+        )
 
         if (!adsBought!!) {
-            aboutItems.add(AboutItem(AboutItemType.RemoveAds(getString(R.string.remove_ads)), R.drawable.ic_shop_white))
+            aboutItems.add(
+                com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem(
+                    com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.RemoveAds(
+                        getString(R.string.remove_ads)
+                    ), R.drawable.ic_shop_white
+                )
+            )
         }
-        aboutItems.add(AboutItem(AboutItemType.Share(getString(R.string.share_app)), R.drawable.ic_share_white))
-        aboutItems.add(AboutItem(AboutItemType.PrivacyPolicy(getString(R.string.privacy_policy)), R.drawable.ic_info_white))
-        aboutItems.add(AboutItem(AboutItemType.RateApp(getString(R.string.rate_app)), R.drawable.ic_star_white))
-        aboutItems.add(AboutItem(AboutItemType.MoreApps(getString(R.string.more_apps)), R.drawable.ic_more_white))
+        aboutItems.add(
+            com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem(
+                com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.Share(
+                    getString(R.string.share_app)
+                ), R.drawable.ic_share_white
+            )
+        )
+        aboutItems.add(
+            com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem(
+                com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.PrivacyPolicy(
+                    getString(R.string.privacy_policy)
+                ), R.drawable.ic_info_white
+            )
+        )
+        aboutItems.add(
+            com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem(
+                com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.RateApp(
+                    getString(R.string.rate_app)
+                ), R.drawable.ic_star_white
+            )
+        )
+        aboutItems.add(
+            com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem(
+                com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItemType.MoreApps(
+                    getString(R.string.more_apps)
+                ), R.drawable.ic_more_white
+            )
+        )
 
-        return aboutItems as ArrayList<AboutItem>
+        return aboutItems as ArrayList<com.carosoftware.skeletonsingleactivitymvvm.domain.AboutItem>
     }
 
     fun hideRemoveAdsButton() {

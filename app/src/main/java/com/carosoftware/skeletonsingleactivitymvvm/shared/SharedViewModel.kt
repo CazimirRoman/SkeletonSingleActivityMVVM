@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.carosoftware.skeletonsingleactivitymvvm.eventbus.EventBusShowHintsEvent
-import com.carosoftware.skeletonsingleactivitymvvm.model.HintType
-import com.carosoftware.skeletonsingleactivitymvvm.model.RatingDialog
+import com.carosoftware.skeletonsingleactivitymvvm.domain.HintType
+import com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog
 import com.carosoftware.skeletonsingleactivitymvvm.util.SharedPreferencesUtil
 import com.carosoftware.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.RATING_DIALOG
 import com.carosoftware.skeletonsingleactivitymvvm.util.SharedPreferencesUtil.loadFromSharedPreferences
@@ -51,10 +51,10 @@ class SharedViewModel : ViewModel() {
         _proBought.value = true
     }
 
-    private fun updateShouldShowHints(hintType: HintType, show: Boolean) {
+    private fun updateShouldShowHints(hintType: com.carosoftware.skeletonsingleactivitymvvm.domain.HintType, show: Boolean) {
 
         when (hintType) {
-            HintType.DELETE_HISTORY -> {
+            com.carosoftware.skeletonsingleactivitymvvm.domain.HintType.DELETE_HISTORY -> {
                 // update shared preferences and shared view model variable
 //                SharedPreferencesUtil.saveToSharedPreferences(
 //                    ShowHintDeleteHistory(show),
@@ -63,7 +63,7 @@ class SharedViewModel : ViewModel() {
 //                showHintDeleteHistory = ShowHintDeleteHistory(show)
             }
 
-            HintType.SHOW_HISTORY_ON_EXP -> {
+            com.carosoftware.skeletonsingleactivitymvvm.domain.HintType.SHOW_HISTORY_ON_EXP -> {
                 // update shared preferences and shared view model variable
 //                SharedPreferencesUtil.saveToSharedPreferences(
 //                    ShowHintHistoryOnExpanded(show),
@@ -75,9 +75,9 @@ class SharedViewModel : ViewModel() {
     }
 
     private fun shouldShowRatingDialog() {
-        when (val storedRatingInfo = loadFromSharedPreferences<RatingDialog>(RATING_DIALOG)) {
+        when (val storedRatingInfo = loadFromSharedPreferences<com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog>(RATING_DIALOG)) {
             null -> SharedPreferencesUtil.saveToSharedPreferences(
-                RatingDialog(timesOpened = 1),
+                com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog(timesOpened = 1),
                 RATING_DIALOG
             )
             else -> {
@@ -92,13 +92,13 @@ class SharedViewModel : ViewModel() {
 
                     else -> {
                         SharedPreferencesUtil.saveToSharedPreferences(
-                            RatingDialog(
+                            com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog(
                                 later = storedRatingInfo.later,
                                 timesOpened = storedRatingInfo.timesOpened + 1
                             ), RATING_DIALOG
                         )
                         Timber.d(
-                            "saveToSharedPreferences: ${loadFromSharedPreferences<RatingDialog>(
+                            "saveToSharedPreferences: ${loadFromSharedPreferences<com.carosoftware.skeletonsingleactivitymvvm.domain.RatingDialog>(
                                 RATING_DIALOG
                             )}"
                         )
