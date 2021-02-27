@@ -2,6 +2,7 @@ package com.carosoftware.skeletonsingleactivitymvvm.shared
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.carosoftware.skeletonsingleactivitymvvm.framework.SharedViewModel
 import com.carosoftware.skeletonsingleactivitymvvm.getOrAwaitValue
 import org.hamcrest.CoreMatchers
 import org.junit.Before

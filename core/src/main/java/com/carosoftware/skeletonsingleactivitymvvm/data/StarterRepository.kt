@@ -1,15 +1,15 @@
 package com.carosoftware.skeletonsingleactivitymvvm.data
 
-import com.carosoftware.skeletonsingleactivitymvvm.domain.Starter
+import com.carosoftware.skeletonsingleactivitymvvm.domain.StarterModel
 
 class StarterRepository(
     private val starterDataSource: StarterDataSource
 ) {
-    suspend fun add(starter: Starter) {
-        starterDataSource.add(starter)
+    suspend fun add(starterModel: StarterModel) {
+        starterDataSource.add(starterModel)
     }
 
     suspend fun getAllStarters() = starterDataSource.getAllStarters()
 
-    suspend fun remove(starter: Starter) = starterDataSource.remove(starter)
+    suspend fun remove(starterModel: StarterModel) = starterDataSource.remove(starterModel)
 }

@@ -1,0 +1,4 @@
+The Framework layer holds implementations of interfaces defined in the Data layer.
+
+Your next task is to provide implementations of Data source interfaces from the Data layer.
+Start with StarterDataSource.

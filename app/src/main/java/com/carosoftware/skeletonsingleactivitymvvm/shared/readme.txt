@@ -1,1 +1,0 @@
-Create shared ViewModels here
