@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.carosoftware.skeletonsingleactivitymvvm.databinding.StartingFragmentBinding
+import com.carosoftware.skeletonsingleactivitymvvm.domain.result.SkeletonResult
 import timber.log.Timber
 
 class StarterFragment : Fragment() {
@@ -41,11 +42,22 @@ class StarterFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
         }
 
-        viewModel.getStarters()
+        viewModel.getStartersRx()
 
-        viewModel.starters.observe(viewLifecycleOwner, Observer {
+        viewModel.starters.observe(viewLifecycleOwner, Observer {result ->
             Timber.d("Starters observe called in Fragment")
-            startingAdapter.setUpData(it)
+
+            when (result) {
+                is SkeletonResult.Success -> {
+                    startingAdapter.setUpData(result.data)
+                }
+                is SkeletonResult.Error -> {
+                    // show error
+                }
+                SkeletonResult.Loading -> {
+                    // show progress bar
+                }
+            }
         })
     }
 }

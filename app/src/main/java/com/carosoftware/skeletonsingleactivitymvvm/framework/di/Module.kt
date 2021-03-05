@@ -5,7 +5,7 @@ import com.carosoftware.skeletonsingleactivitymvvm.framework.dataSources.RoomSta
 import com.carosoftware.skeletonsingleactivitymvvm.framework.interactors.Interactors
 import com.carosoftware.skeletonsingleactivitymvvm.interactors.AddStarter
 import com.carosoftware.skeletonsingleactivitymvvm.interactors.GetStarters
-import com.carosoftware.skeletonsingleactivitymvvm.test.CacheTestPostDataSource
+import com.carosoftware.skeletonsingleactivitymvvm.test.InMemoryStartersDataSource
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
 
@@ -34,14 +34,12 @@ val testModule = module {
 
     factory {
         AddStarter(
-            StarterRepository(CacheTestPostDataSource.newInstance())
+            StarterRepository(InMemoryStartersDataSource.newInstance())
         )
     }
 
     factory {
-        GetStarters(
-            StarterRepository(CacheTestPostDataSource.newInstance())
-        )
+        GetStarters(StarterRepository(InMemoryStartersDataSource.newInstance()))
     }
 
     factory {

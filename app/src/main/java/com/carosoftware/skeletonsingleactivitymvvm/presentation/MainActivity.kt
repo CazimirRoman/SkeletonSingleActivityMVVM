@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -70,15 +71,19 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, MainActivityC
         // checkPermissions()
 
         // TODO: Example replacement of fragment with Starting Fragment
-        val manager: FragmentManager = supportFragmentManager
-        val transaction: FragmentTransaction = manager.beginTransaction()
-        transaction.replace(R.id.fragment_container, StarterFragment.newInstance()).commit()
+        startFragment(StarterFragment.newInstance())
 
         // TODO: Remove this and call hideSplash when loading is done and main layout should be showed
         Handler().postDelayed({
             hideSplash()
         }, 2000)
 
+    }
+
+    private fun startFragment(fragment: Fragment) {
+        val manager: FragmentManager = supportFragmentManager
+        val transaction: FragmentTransaction = manager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment).commit()
     }
 
     /*this mehtod checks if the splashscreen has already been shown and hides it if it has.

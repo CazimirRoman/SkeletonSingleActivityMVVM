@@ -2,21 +2,23 @@ package com.carosoftware.skeletonsingleactivitymvvm.test
 
 import com.carosoftware.skeletonsingleactivitymvvm.data.StarterDataSource
 import com.carosoftware.skeletonsingleactivitymvvm.domain.StarterModel
+import com.carosoftware.skeletonsingleactivitymvvm.domain.result.SkeletonResult
 import com.carosoftware.skeletonsingleactivitymvvm.test.mockData.StarterMock
 import com.carosoftware.skeletonsingleactivitymvvm.test.mockData.StarterMockType
+import io.reactivex.Single
 
-class CacheTestPostDataSource private constructor(): StarterDataSource {
+class InMemoryStartersDataSource private constructor(): StarterDataSource {
 
     companion object {
-        fun newInstance(): CacheTestPostDataSource {
-            return CacheTestPostDataSource()
+        fun newInstance(): InMemoryStartersDataSource {
+            return InMemoryStartersDataSource()
         }
     }
 
     private val listOfStarters = mutableListOf<StarterModel>()
 
     init {
-        /* commented this out to simulate NO data in the local cache if you later add the remote data source */
+        /* comment this out to simulate NO data in the local cache if you later add the remote data source */
         StarterMock.listOfStarters(StarterMockType.LOCAL).forEach {
             listOfStarters.add(it)
         }
@@ -26,8 +28,14 @@ class CacheTestPostDataSource private constructor(): StarterDataSource {
         listOfStarters.add(starterModel)
     }
 
-    override suspend fun getAllStarters(): List<StarterModel> {
-        return listOfStarters
+    override suspend fun getAllStarters(): SkeletonResult<List<StarterModel>> {
+        return SkeletonResult.Success(listOfStarters)
+    }
+
+    override fun getAllStartersObservable(): Single<SkeletonResult<List<StarterModel>>> {
+        return Single.create { emitter ->
+            emitter.onSuccess(SkeletonResult.Success(listOfStarters))
+        }
     }
 
     override suspend fun remove(starterModel: StarterModel) {

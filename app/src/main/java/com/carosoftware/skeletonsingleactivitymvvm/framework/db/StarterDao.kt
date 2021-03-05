@@ -13,7 +13,7 @@ interface StarterDao {
     suspend fun addStarter(starter: StarterEntity)
 
     @Query("SELECT * FROM starter")
-    suspend fun getAllStarters(): List<StarterEntity>
+    fun getAllStarters(): List<StarterEntity>
 
     @Delete
     suspend fun removeStarter(starter: StarterEntity)

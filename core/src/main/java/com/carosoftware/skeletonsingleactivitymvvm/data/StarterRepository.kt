@@ -11,5 +11,7 @@ class StarterRepository(
 
     suspend fun getAllStarters() = starterDataSource.getAllStarters()
 
+    fun getAllStartersObservable() = starterDataSource.getAllStartersObservable()
+
     suspend fun remove(starterModel: StarterModel) = starterDataSource.remove(starterModel)
 }
