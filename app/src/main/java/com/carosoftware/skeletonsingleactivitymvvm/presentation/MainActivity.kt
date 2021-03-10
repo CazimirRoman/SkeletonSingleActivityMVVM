@@ -71,7 +71,7 @@ class MainActivity : FragmentActivity(), PurchasesUpdatedListener, MainActivityC
         // checkPermissions()
 
         // TODO: Example replacement of fragment with Starting Fragment
-        startFragment(StarterFragment.newInstance())
+//        startFragment(StarterFragment.newInstance())
 
         // TODO: Remove this and call hideSplash when loading is done and main layout should be showed
         Handler().postDelayed({

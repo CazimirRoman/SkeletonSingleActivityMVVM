@@ -19,10 +19,6 @@ class StarterFragment : Fragment() {
     // use view binding instead of synthetics
     private lateinit var binding: StartingFragmentBinding
 
-    companion object {
-        fun newInstance() = StarterFragment()
-    }
-
     private lateinit var viewModel: StarterViewModel
 
     override fun onCreateView(
@@ -35,7 +31,7 @@ class StarterFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(activity!!).get(StarterViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(StarterViewModel::class.java)
 
         binding.starterList.apply {
             adapter = startingAdapter
